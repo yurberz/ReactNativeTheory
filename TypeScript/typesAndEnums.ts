@@ -81,9 +81,6 @@ let coord: IPoint = {
   y: 450,
 };
 
-//Type assertion представляет модель преобразования значения переменной к определенному типу.
-const myRootDiv = document.getElementById("root") as HTMLBodyElement;
-
 console.log(
   "\n",
   "str =",
@@ -121,9 +118,7 @@ console.log(
   "\n",
   "coord = ",
   coord,
-  "\n",
-  "myRootDiv = ",
-  myRootDiv
+  "\n"
 );
 
 /*
@@ -133,17 +128,17 @@ console.log(
     ~ Написать проверку типов аргументов функции и в случае передачи константы eight выводить ошибку "Incorrect input!"
 */
 
-// const a = 5;
-// const b = 7;
-// const eight = "8";
+const a1 = 5;
+const b1 = 7;
+const eight = "8";
 
-// const calcFn = (a: number, b: number): number => {
-//   if (typeof a !== "number" || typeof b !== "number") {
-//     throw new Error("Incorrect input!");
-//   }
+const calcFn = (a: number, b: number): number => {
+  if (typeof a !== "number" || typeof b !== "number") {
+    throw new Error("Incorrect input!");
+  }
 
-//   return a + b;
-// };
+  return a + b;
+};
 
 /*
         Задание 3
@@ -151,15 +146,15 @@ console.log(
     ~ Написать функцию, которая проверит, что А не является чем-то из следующего списка null, undefined, NaN, '', 0, false
 */
 
-// let A: any = "example";
+let A1: any = "example";
 
-// const isFalsy = (val: any) => {
-//   if (val) {
-//     return false;
-//   }
+const isFalsyFirst = (val: any) => {
+  if (val) {
+    return false;
+  }
 
-//   return true;
-// };
+  return true;
+};
 
 /*
         Задание 4
@@ -168,17 +163,17 @@ console.log(
     ~ При значении 'as-number' выводить сумму чисел, при 'as-string' объединение строк.
 */
 
-// type TArg = number | string;
+type TArg = number | string;
 
-// const combine = (a: TArg, b: TArg, parameter: string) => {
-//   if (parameter === "as-number") {
-//     return Number(a) + Number(b);
-//   }
+const combine = (a: TArg, b: TArg, parameter: string) => {
+  if (parameter === "as-number") {
+    return Number(a) + Number(b);
+  }
 
-//   if (parameter === "as-string") {
-//     return a.toString() + b;
-//   }
-// };
+  if (parameter === "as-string") {
+    return a.toString() + b;
+  }
+};
 
 /*
         Задание 5
@@ -188,26 +183,26 @@ console.log(
     ~ Проверить работу функции присвоив переменной А значение undefined
 */
 
-// let A: any = "example";
+let A: any = "example";
 
-// const err: [number, string] = [406, "is not Falsy!"];
+const err: [number, string] = [406, "is not Falsy!"];
 
-// const isFalsy = (val: any) => {
-//   if (val) {
-//     return console.log(
-//       "\n",
-//       `error code: ${err[0]}`,
-//       "\n",
-//       `message: ${err[1]}`
-//     );
-//   }
+const isFalsySecond = (val: any) => {
+  if (val) {
+    return console.log(
+      "\n",
+      `error code: ${err[0]}`,
+      "\n",
+      `message: ${err[1]}`
+    );
+  }
 
-//   return true;
-// };
+  return true;
+};
 
-// isFalsy(A);
-// A = undefined;
-// console.log(isFalsy(A));
+isFalsySecond(A);
+A = undefined;
+console.log(isFalsySecond(A));
 
 /*
         Задание 6
@@ -218,22 +213,22 @@ console.log(
     !!!
 */
 
-// enum Role {
-//   Admin = 1,
-//   Author,
-//   Moderator,
-// }
+enum RoleFirst {
+  Admin = 1,
+  Author,
+  Moderator,
+}
 
-// const person: { [key: string]: any } = {
-//   name: "Jon",
-//   years: 19,
-//   sex: "men",
-//   role: Role[2],
-// };
+const person: { [key: string]: any } = {
+  name: "Jon",
+  years: 19,
+  sex: "men",
+  role: RoleFirst[2],
+};
 
-// for (const key in person) {
-//   console.log(`${key}: ${person[key]}`);
-// }
+for (const key in person) {
+  console.log(`${key}: ${person[key]}`);
+}
 
 /*
         Задание 7
@@ -244,45 +239,45 @@ console.log(
     !!!
 */
 
-// enum Role {
-//   Admin = "Admin",
-//   Author = "Author",
-//   Moderator = "Moderator",
-// }
+enum Role {
+  Admin = "Admin",
+  Author = "Author",
+  Moderator = "Moderator",
+}
 
-// type TUser = {
-//   name: string;
-//   years: number;
-//   sex: string;
-//   role: Role;
-// };
+type TUser = {
+  name: string;
+  years: number;
+  sex: string;
+  role: Role;
+};
 
-// const arrUsers: TUser[] = [
-//   {
-//     name: "Jon",
-//     years: 19,
-//     sex: "men",
-//     role: Role.Author,
-//   },
-//   {
-//     name: "Mango",
-//     years: 36,
-//     sex: "men",
-//     role: Role.Admin,
-//   },
-//   {
-//     name: "Poly",
-//     years: 27,
-//     sex: "men",
-//     role: Role.Moderator,
-//   },
-// ];
+const arrUsers: TUser[] = [
+  {
+    name: "Jon",
+    years: 19,
+    sex: "men",
+    role: Role.Author,
+  },
+  {
+    name: "Mango",
+    years: 36,
+    sex: "men",
+    role: Role.Admin,
+  },
+  {
+    name: "Poly",
+    years: 27,
+    sex: "men",
+    role: Role.Moderator,
+  },
+];
 
-// const greetingMessage = (arr: TUser[]) => {
-//   arr.forEach((itm) => console.log(`My name is ${itm.name}. I am ${itm.role}`));
-// };
+const greetingMessage = (arr: TUser[]) => {
+  arr.forEach((itm) => console.log(`My name is ${itm.name}. I am ${itm.role}`));
+};
 
-// greetingMessage(arrUsers);
+greetingMessage(arrUsers);
 
 /*
         Задание 8
@@ -296,23 +291,23 @@ console.log(
 
 */
 
-// const calcFn = (a: number, b: number): number => {
-//   if (typeof a !== "number" || typeof b !== "number") {
-//     throw new Error("Incorrect input!");
-//   }
+const calcFnSecond = (a: number, b: number): number => {
+  if (typeof a !== "number" || typeof b !== "number") {
+    throw new Error("Incorrect input!");
+  }
 
-//   return a + b;
-// };
+  return a + b;
+};
 
-// const addAndHandle = (a: number, b: number, cb: Function) => {
-//   const result = calcFn(a, b);
+const addAndHandle = (a: number, b: number, cb: Function) => {
+  const result = calcFnSecond(a, b);
 
-//   return cb(result);
-// };
+  return cb(result);
+};
 
-// addAndHandle(10, 20, (result: number) => {
-//   console.log(result);
-// });
+addAndHandle(10, 20, (result: number) => {
+  console.log(result);
+});
 
 /*
         Задание 9
@@ -320,11 +315,11 @@ console.log(
 */
 
 //функция всегда выполняется и никогда не достигает конечной точки, потому что цикл while никогда не заканчивается.
-// const keepProcessing = (): never => {
-//   while (true) {
-//     console.log("I always does something and never ends.");
-//   }
-// };
+const keepProcessing = (): never => {
+  while (true) {
+    console.log("I always does something and never ends.");
+  }
+};
 
 /*
         Задание 10
@@ -333,29 +328,38 @@ console.log(
     ~ Вывести в консоль города с индексами.
 */
 
-// enum Cities {
-//   Kharkiv = "61000",
-//   Kyiv = "01001",
-//   Lviv = "79007",
-//   Odesa = "65125",
-// }
+const getPostalCity = (city: string): number => {
+  if (city === "Kharkiv") {
+    return 61000;
+  }
+  if (city === "Kyiv") {
+    return 1001;
+  }
+  if (city === "Lviv") {
+    return 79007;
+  }
+  if (city === "Odesa") {
+    return 65125;
+  }
+};
 
-// type CitiesPostal = keyof typeof Cities;
+enum Cities {
+  Kharkiv = getPostalCity("Kharkiv"),
+  Kyiv = getPostalCity("Kyiv"),
+  Lviv = getPostalCity("Lviv"),
+  Odesa = getPostalCity("Odesa"),
+}
 
-// const getPostalCity = (city: CitiesPostal) => {
-//   return Cities[city];
-// };
-
-// console.log(
-//   "\n",
-//   `Kharkiv: ${getPostalCity("Kharkiv")}`,
-//   "\n",
-//   `Kyiv: ${getPostalCity("Kyiv")}`,
-//   "\n",
-//   `Lviv: ${getPostalCity("Lviv")}`,
-//   "\n",
-//   `Odesa: ${getPostalCity("Odesa")}`
-// );
+console.log(
+  "\n",
+  `Kharkiv: ${Cities.Kharkiv}`,
+  "\n",
+  `Kyiv: ${Cities.Kyiv}`,
+  "\n",
+  `Lviv: ${Cities.Lviv}`,
+  "\n",
+  `Odesa: ${Cities.Odesa}`
+);
 
 /*
         Задание 11
@@ -363,26 +367,26 @@ console.log(
     ~ Если в названии страны встречается буква А, выведи ее нзавание в консоль
 */
 
-// const ukraine: string = "Ukraine";
-// const sweden: string = "Sweden";
-// const croatia: string = "Croatia";
-// const albania: string = "Albania";
-// const belgium: string = "Belgium";
+const ukraine: string = "Ukraine";
+const sweden: string = "Sweden";
+const croatia: string = "Croatia";
+const albania: string = "Albania";
+const belgium: string = "Belgium";
 
-// const findCountriesByLetter = (s: string) => {
-//   if (s.includes("A")) {
-//     // если стоит задача найти все совпадения на букву "a" без учета регистра, то еще нужно добавить toUpperCase
-//     console.log(s);
-//   } else {
-//     console.log('there is no "A" in the name of this country');
-//   }
-// };
+const findCountriesByLetter = (s: string) => {
+  if (s.includes("A")) {
+    // если стоит задача найти все совпадения на букву "a" без учета регистра, то еще нужно добавить toUpperCase
+    console.log(s);
+  } else {
+    console.log('there is no "A" in the name of this country');
+  }
+};
 
-// findCountriesByLetter(ukraine);
-// findCountriesByLetter(sweden);
-// findCountriesByLetter(croatia);
-// findCountriesByLetter(albania);
-// findCountriesByLetter(belgium);
+findCountriesByLetter(ukraine);
+findCountriesByLetter(sweden);
+findCountriesByLetter(croatia);
+findCountriesByLetter(albania);
+findCountriesByLetter(belgium);
 
 /*
         Задание 12
@@ -393,19 +397,19 @@ console.log(
     !!!
 */
 
-// const arrNum1: number[] = [1, 2, 3];
-// const arrNum2: number[] = [1, 2, 3, 4, 5, 6];
+const arrNum1: number[] = [1, 2, 3];
+const arrNum2: number[] = [1, 2, 3, 4, 5, 6];
 
-// const arrTuple: [number[], string] = [
-//   arrNum1,
-//   "number of elements in the array:",
-// ];
+const arrTuple: [number[], string] = [
+  arrNum1,
+  "number of elements in the array:",
+];
 
-// const messageFromTuple = (tuple: typeof arrTuple) => {
-//   return console.log(tuple[1], tuple[0].length);
-// };
+const messageFromTuple = (tuple: typeof arrTuple) => {
+  return console.log(tuple[1], tuple[0].length);
+};
 
-// messageFromTuple(arrTuple);
+messageFromTuple(arrTuple);
 
 /*
         Задание 13
@@ -413,23 +417,23 @@ console.log(
     ~ Метод without должен вернуть копию объекта, но уже без свойств переданного типа .
 */
 
-// type TObj = {
-//   [key: string]: any;
-// };
+type TObj = {
+  [key: string]: any;
+};
 
-// const without = (obj: TObj, type: string) => {
-//   const resultObj: TObj = {};
+const without = (obj: TObj, type: string) => {
+  const resultObj: TObj = {};
 
-//   for (const key in obj) {
-//     if (typeof obj[key] !== type) {
-//       resultObj[key] = obj[key];
-//     }
-//   }
+  for (const key in obj) {
+    if (typeof obj[key] !== type) {
+      resultObj[key] = obj[key];
+    }
+  }
 
-//   return resultObj;
-// };
+  return resultObj;
+};
 
-// console.log(without({ number: 47, string: "str", boolean: true }, "boolean"));
+console.log(without({ number: 47, string: "str", boolean: true }, "boolean"));
 
 /*
         Задание 14
@@ -438,25 +442,25 @@ console.log(
     !!!
 */
 
-// const isEmpty = (obj: { [key: string]: any }): boolean => {
-//   for (let key in obj) {
-//     if (typeof obj[key] === "object") {
-//       return isEmpty(obj[key]);
-//     }
+const isEmpty = (obj: { [key: string]: any }): boolean => {
+  for (let key in obj) {
+    if (typeof obj[key] === "object") {
+      return isEmpty(obj[key]);
+    }
 
-//     if (obj[key] === undefined) {
-//       return true;
-//     }
+    if (obj[key] === undefined) {
+      return true;
+    }
 
-//     return false;
-//   }
+    return false;
+  }
 
-//   return true;
-// };
+  return true;
+};
 
-// console.log(isEmpty({ a: { b: [] } }));
-// console.log(isEmpty({}));
-// console.log(isEmpty({ a: { b: [{ c: [] }] } }));
-// console.log(isEmpty({ a: { b: undefined } }));
-// console.log(isEmpty({ a: { b: [{ c: [1, 2, 3, 4] }] } }));
-// console.log(isEmpty({ a: { b: "lola" } }));
+console.log(isEmpty({ a: { b: [] } }));
+console.log(isEmpty({}));
+console.log(isEmpty({ a: { b: [{ c: [] }] } }));
+console.log(isEmpty({ a: { b: undefined } }));
+console.log(isEmpty({ a: { b: [{ c: [1, 2, 3, 4] }] } }));
+console.log(isEmpty({ a: { b: "lola" } }));

@@ -75,7 +75,7 @@ const person = {
     name: "Jon",
     years: 19,
     sex: "men",
-    role: RoleFirst.Author,
+    role: RoleFirst[2],
 };
 for (const key in person) {
     console.log(`${key}: ${person[key]}`);

@@ -7,6 +7,6 @@
     "sourceMap": true,
     "watch": true
   },
-  "include": ["src/**/*"],
+  "include": ["TypeScript/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }
