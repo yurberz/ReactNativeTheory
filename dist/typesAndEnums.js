@@ -1,4 +1,3 @@
-"use strict";
 let str = "hello rn";
 let int = 85;
 let isOn = true;
@@ -30,6 +29,26 @@ let coord = {
     x: 100,
     y: 450,
 };
-const myRootDiv = document.getElementById("root");
-console.log("\n", "str =", str, "\n", "int =", int, "\n", "isOn =", isOn, "\n", "anyType =", anyType, "\n", "color = ", color, "\n", "arrNum =", arrNum, "\n", "arrStr =", arrStr, "\n", "tuple = ", tuple, "\n", "obj = ", user, "\n", "idStr = ", idStr, "\n", "idNum =", idNum, "\n", "coord = ", coord, "\n", "myRootDiv = ", myRootDiv);
+const getPostalCity = (city) => {
+    if (city === "Kharkiv") {
+        return 61000;
+    }
+    if (city === "Kyiv") {
+        return 1001;
+    }
+    if (city === "Lviv") {
+        return 79007;
+    }
+    if (city === "Odesa") {
+        return 65125;
+    }
+};
+var Cities;
+(function (Cities) {
+    Cities[Cities["Kharkiv"] = getPostalCity("Kharkiv")] = "Kharkiv";
+    Cities[Cities["Kyiv"] = getPostalCity("Kyiv")] = "Kyiv";
+    Cities[Cities["Lviv"] = getPostalCity("Lviv")] = "Lviv";
+    Cities[Cities["Odesa"] = getPostalCity("Odesa")] = "Odesa";
+})(Cities || (Cities = {}));
+console.log("\n", `Kharkiv: ${Cities.Kharkiv}`, "\n", `Kyiv: ${Cities.Kyiv}`, "\n", `Lviv: ${Cities.Lviv}`, "\n", `Odesa: ${Cities.Odesa}`);
 //# sourceMappingURL=typesAndEnums.js.map
