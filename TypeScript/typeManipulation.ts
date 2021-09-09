@@ -22,7 +22,6 @@
 Внимательно изучи соответствующий материал официальной документации и переходи к парктическим заданиям:    
 --> https://www.typescriptlang.org/docs/handbook/2/types-from-types.html <--
 */
-
 const { log } = console;
 /*  
         Задание 1 
@@ -34,13 +33,15 @@ const arrayOfNumber = [23, 267, 786, 1897];
 const arrayOfString = ["TypeScript", "MacOS", "blabla", "2021"];
 const arrayOfObject = [{ a: 23 }, { b: "Open" }, { c: true }];
 
-const getRandomElementFromArray = <T>(array: T[]) => {
-  return log(array[Math.floor(Math.random() * array.length)]);
+const getRandomElementFromArray = <T>(array: T[]): T => {
+  const element = array[Math.floor(Math.random() * array.length)];
+
+  return element;
 };
 
-getRandomElementFromArray(arrayOfNumber);
-getRandomElementFromArray(arrayOfString);
-getRandomElementFromArray(arrayOfObject);
+log(getRandomElementFromArray(arrayOfNumber));
+log(getRandomElementFromArray(arrayOfString));
+log(getRandomElementFromArray(arrayOfObject));
 
 /*  
         Задание 2 
@@ -67,6 +68,7 @@ const myFilter = <T, F extends Predicate>(arr: T[], predicate: F): T[] => {
 // Пример использования
 const res = myFilter([1, 2, 3, 4, 5], (num) => num % 2 === 0);
 const res2 = myFilter(["foo", "hoge", "bar"], (str) => str.length >= 4);
+
 log("\n", res, "\n", res2);
 
 /*  
@@ -106,7 +108,7 @@ interface IPerson {
   fullName?: string;
 }
 
-const addAge = <P extends IPerson>(obj: P) => {
+const addAge = <P extends IPerson>(obj: P): IPerson => {
   const age = 36;
 
   return {
@@ -132,7 +134,7 @@ interface IAction {
   value?: number;
 }
 
-const reducer = <T extends IAction>(state: number, action: T) => {
+const reducer = <T extends IAction>(state: number, action: T): number => {
   switch (action.type) {
     case "increment":
       return state + action.amount;
