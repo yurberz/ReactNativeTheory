@@ -1,0 +1,12 @@
+{
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "compilerOptions": {
+    "preserveConstEnums": true,
+    "removeComments": true,
+    "outDir": "dist",
+    "sourceMap": true,
+    "watch": true
+  },
+  "include": ["TypeScript/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}
