@@ -51,9 +51,7 @@ log(getRandomElementFromArray(arrayOfObject));
     ~ Вывести результат работы функции в консоль
 */
 
-type Predicate = (element: any) => boolean;
-
-const myFilter = <T, F extends Predicate>(arr: T[], predicate: F): T[] => {
+const myFilter = <T>(arr: T[], predicate: (element: T) => boolean): T[] => {
   const result = [];
 
   for (const elm of arr) {
@@ -78,10 +76,12 @@ log("\n", res, "\n", res2);
     ~ Написать пример и вывести в консоль результат использования функции
 */
 
-type Price = string;
+type TPrice = {
+  speed: "low" | "medium" | "high";
+};
 // @ts-ignore
-const getPrice = (price: Price): number => {
-  switch (price) {
+const getPrice = (price: TPrice): number => {
+  switch (price.speed) {
     case "low":
       return 50;
 
@@ -93,7 +93,7 @@ const getPrice = (price: Price): number => {
   }
 };
 
-log(getPrice("high"));
+log(getPrice({ speed: "high" }));
 
 /*  
         Задание 4
@@ -102,13 +102,7 @@ log(getPrice("high"));
     ~ Вывести в консоль результат использования функции
 */
 
-interface IPerson {
-  firstName: string;
-  lastName: string;
-  fullName?: string;
-}
-
-const addAge = <P extends IPerson>(obj: P): IPerson => {
+const addAge = <P>(obj: P): P => {
   const age = 36;
 
   return {
@@ -126,15 +120,19 @@ log(addAge({ firstName: "Yurii", lastName: "Berezynets" }));
     ~ action.type может быть только трех видов (increment, decrement, reset)
 */
 
-type TActionType = "increment" | "decrement" | "reset";
-
-interface IAction {
-  type: TActionType;
+type TActionA = {
+  type: "increment" | "decrement";
   amount: number;
-  value?: number;
-}
+};
 
-const reducer = <T extends IAction>(state: number, action: T): number => {
+type TActionB = {
+  type: "reset";
+  value: number;
+};
+
+type TActionType = TActionA | TActionB;
+
+const reducer = (state: number, action: TActionType): number => {
   switch (action.type) {
     case "increment":
       return state + action.amount;
