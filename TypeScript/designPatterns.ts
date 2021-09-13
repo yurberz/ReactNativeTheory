@@ -70,15 +70,17 @@ class TowTruck implements ITowTruck {
   }
 }
 
-class CarToEvacuate implements ICar {
+class CarToEvacuate extends Car implements ICar {
   towTruck: ITowTruck;
 
   constructor(towTruck: ITowTruck) {
+    super();
     this.towTruck = towTruck;
   }
 
-  public move(): void {
+  public move() {
     this.towTruck.evacuate();
+    super.move();
   }
 }
 
@@ -103,23 +105,29 @@ console.log("");
 */
 
 interface ISubject {
-  data: number;
-  setData(value: number): void;
   registerObserver(observer: IObserver): void;
   removeObserver(observer: IObserver): void;
   notifyObservers(): void;
 }
 
 interface IObserver {
-  update(subject: ISubject): void;
+  update(isAlarm: boolean): void;
 }
 
 class AlarmSystem implements ISubject {
-  data: number;
+  public isAlarm: boolean;
   private observers: IObserver[] = [];
 
-  public setData() {
-    this.data = Math.round(Math.random());
+  public alarmOn() {
+    this.isAlarm = true;
+
+    console.log("Alarm system: Updating...");
+
+    this.notifyObservers();
+  }
+
+  public alarmOff() {
+    this.isAlarm = false;
 
     console.log("Alarm system: Updating...");
 
@@ -143,14 +151,24 @@ class AlarmSystem implements ISubject {
   public notifyObservers() {
     console.log("Alarm system: Notifying observers...");
 
-    this.observers.forEach((observer) => observer.update(this));
+    this.observers.forEach((observer) => observer.update(this.isAlarm));
   }
 }
 
-class Observer implements IObserver {
-  public update(subject: ISubject) {
-    if (subject.data === 1) {
-      console.log("ALERTS!");
+class SecurityObserver implements IObserver {
+  public update(isAlarm: boolean) {
+    if (isAlarm) {
+      console.log("ALERTS! Notification Security");
+    } else {
+      console.log("Stay cool...");
+    }
+  }
+}
+
+class OwnerObserver implements IObserver {
+  public update(isAlarm: boolean) {
+    if (isAlarm) {
+      console.log("ALERTS! Notification Owner");
     } else {
       console.log("Stay cool...");
     }
@@ -158,18 +176,18 @@ class Observer implements IObserver {
 }
 
 const ajax = new AlarmSystem();
-const security = new Observer();
-const owner = new Observer();
+const security = new SecurityObserver();
+const owner = new OwnerObserver();
 
 ajax.registerObserver(security);
 ajax.registerObserver(owner);
 console.log("");
-ajax.setData();
-ajax.setData();
+ajax.alarmOn();
+ajax.alarmOff();
 console.log("");
 ajax.removeObserver(owner);
 console.log("");
-ajax.setData();
+ajax.alarmOn();
 
 /* 
         Задание 3
@@ -257,14 +275,14 @@ createProduct(new SamsungFactory());
     Помогите фастфуду приготовить и вывести заказ в консоль, не создавая новых видов меню.
 */
 
-interface IFastFood {
+interface IMenu {
   order(): void;
 }
 
-class MenuDecorator implements IFastFood {
-  protected menu: IFastFood;
+class MenuDecorator implements IMenu {
+  protected menu: IMenu;
 
-  constructor(menu: IFastFood) {
+  constructor(menu: IMenu) {
     this.menu = menu;
   }
 
@@ -273,13 +291,13 @@ class MenuDecorator implements IFastFood {
   }
 }
 
-class CheesburgerMenu implements IFastFood {
+class CheesburgerMenu implements IMenu {
   public order() {
     console.log("basic combo Cheesburger menu");
   }
 }
 
-class HamburgerMenu implements IFastFood {
+class HamburgerMenu implements IMenu {
   public order() {
     console.log("basic combo Humburger menu");
   }
@@ -310,12 +328,12 @@ class AddDonut extends MenuDecorator {
 }
 
 const basicCheesburgerMenu = new CheesburgerMenu();
-const cheesburgerMenuPlus = new AddJuice(new CheesburgerMenu());
+const addJuiceOrder = new AddJuice(basicCheesburgerMenu);
 const hamburgerMenuPlus = new AddDonut(new AddCola(new HamburgerMenu()));
 
 basicCheesburgerMenu.order();
 console.log("");
-cheesburgerMenuPlus.order();
+addJuiceOrder.order();
 console.log("");
 hamburgerMenuPlus.order();
 
