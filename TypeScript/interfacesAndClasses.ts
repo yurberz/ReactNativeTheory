@@ -82,10 +82,10 @@
 // export interface IUser {
 //   name: string;
 //   age: number;
-//   occupation?: string;
+//   occupation: string;
 // }
 
-// export interface IAdmin extends IUser {
+// export interface IAdmin extends Omit<IUser, "occupation"> {
 //   role: string;
 // }
 
@@ -130,10 +130,10 @@
 // export interface IUser {
 //   name: string;
 //   age: number;
-//   occupation?: string;
+//   occupation: string;
 // }
 
-// export interface IAdmin extends IUser {
+// export interface IAdmin extends Omit<IUser, "occupation"> {
 //   role: string;
 // }
 
@@ -162,7 +162,7 @@
 //   },
 // ];
 
-// export function logPerson(user: IAdmin): void {
+// export function logPerson(user: TUsersType): void {
 //   console.log(
 //     user.occupation
 //       ? ` - ${user.name}, ${user.age}, ${user.occupation}`
@@ -195,11 +195,11 @@
 export interface IUser {
   name: string;
   age: number;
-  occupation?: string;
-  type: "user" | "admin";
+  occupation: string;
+  type: string;
 }
 
-export interface IAdmin extends IUser {
+export interface IAdmin extends Omit<IUser, "occupation"> {
   role: string;
 }
 
@@ -232,15 +232,15 @@ export const users: TUsersType[] = [
   },
 ];
 
-export function isAdmin(user: IAdmin): boolean {
+export function isAdmin(user: TUsersType): boolean {
   return user.type === "admin";
 }
 
-export function isUser(user: IUser): boolean {
+export function isUser(user: TUsersType): boolean {
   return user.type === "user";
 }
 
-export function logPerson(user: IAdmin): void {
+export function logPerson(user: TUsersType): void {
   let additionalInformation: string = "";
 
   if (isAdmin(user)) {
@@ -359,9 +359,9 @@ class Weather implements IWeather {
   public windSpeed: number;
   public chanceOfRain: number;
 
-  constructor() {
-    this.windSpeed = 2;
-    this.chanceOfRain = 14;
+  constructor(windSpeed: number, chanceOfRain: number) {
+    this.windSpeed = windSpeed;
+    this.chanceOfRain = chanceOfRain;
   }
 
   isDayForWalk(): boolean {
@@ -373,7 +373,7 @@ class Weather implements IWeather {
   }
 }
 
-const weather: IWeather = new Weather();
+const weather: IWeather = new Weather(2, 14);
 
 console.log(weather.isDayForWalk());
 
@@ -415,7 +415,7 @@ class Point2D implements IPoint2D {
   }
 }
 
-class Point3D extends Point2D implements IPoint2D {
+class Point3D extends Point2D implements IPoint3D {
   public z = 0;
 
   constructor(x: number, y: number, z: number) {
@@ -440,19 +440,19 @@ point3D.reset();
     ~ Реализуй иерархию классов, представленной на Рисунке 1
 */
 
-abstract class Telephone {
-  public makeCall(): void {
+class Telephone {
+  makeCall(): void {
     console.log("hello!");
   }
 
-  public hangUp(): void {
+  hangUp(): void {
     console.log("put the phone down");
   }
 }
 
 abstract class Landline extends Telephone {}
 
-class RotaryPhone extends Landline {
+class Rotary extends Landline {
   public rotaryInput(): void {
     console.log("10 impulse..., 5 impulse..., ... ");
   }
@@ -468,7 +468,7 @@ abstract class Cellular extends Telephone {
   abstract sendSMS(): void;
 }
 
-abstract class Smartphone extends Cellular {
+class Smart extends Cellular {
   phoneOS: string;
 
   constructor(phoneOS: string) {
@@ -489,19 +489,19 @@ abstract class Smartphone extends Cellular {
   }
 }
 
-class IPhone extends Smartphone {
+class IPhone extends Smart {
   constructor(phoneOS: string) {
     super(phoneOS);
   }
 }
 
-class Android extends Smartphone {
+class Android extends Smart {
   constructor(phoneOS: string) {
     super(phoneOS);
   }
 }
 
-class Windows extends Smartphone {
+class Windows extends Smart {
   constructor(phoneOS: string) {
     super(phoneOS);
   }
@@ -520,7 +520,7 @@ class NonSmartphone extends Cellular {
 const iPhone = new IPhone("ios");
 console.log(iPhone.phoneOS);
 
-const rotaryPhone = new RotaryPhone();
+const rotaryPhone = new Rotary();
 rotaryPhone.rotaryInput();
 
 const nonSmartphone = new NonSmartphone();
