@@ -120,22 +120,19 @@ log(addAge({ firstName: "Yurii", lastName: "Berezynets" }));
     ~ action.type может быть только трех видов (increment, decrement, reset)
 */
 
-type TActionAmount = {
-  type: "increment" | "decrement";
-  amount: number;
-};
-
-type TActionValue = {
-  type: "reset";
-  value: number;
-};
-
-type TAction = TActionAmount | TActionValue;
-
-// type TAction = {
-//   type: "increment" | "decrement" | "reset";
-//   [key: string]: any;
-// };
+type Action =
+  | {
+      type: 'increment';
+      amount: number;
+    }
+  | {
+      type: 'decrement';
+      amount: number;
+    }
+  | {
+      type: 'reset';
+      value: number;
+    };
 
 const reducer = (state: number, action: TAction): number => {
   switch (action.type) {
