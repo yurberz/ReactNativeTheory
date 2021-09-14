@@ -327,7 +327,7 @@ const keepProcessing = (): never => {
     ~ Написать функцию. которая возвращает индекс города.
     ~ Вывести в консоль города с индексами.
 */
-
+// @ts-ignore
 const getPostalCity = (city: string): number => {
   if (city === "Kharkiv") {
     return 61000;
