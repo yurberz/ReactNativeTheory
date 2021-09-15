@@ -36,7 +36,7 @@ class LoginScreen extends Component<{}, LoginScreenState> {
     const {email, password} = this.state;
 
     return (
-      <BackgroundForm>
+      <BackgroundForm viewStyle={styles.viewStyle}>
         {/* Form inputs */}
         <View style={styles.inputContainer}>
           <CredentialTextInput
@@ -80,6 +80,15 @@ class LoginScreen extends Component<{}, LoginScreenState> {
 }
 
 const styles = StyleSheet.create({
+  viewStyle: {
+    paddingTop: 30,
+    paddingBottom: 50,
+    paddingHorizontal: 20,
+    width: '100%',
+    backgroundColor: '#ffffff',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
   inputContainer: {
     marginBottom: 30,
   },

@@ -5,6 +5,8 @@ import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 interface IFilledButtonProps {
   title: string;
   onPress(): void;
+  filledButtonStyle?: object;
+  disabled?: boolean;
 }
 
 class FilledButton extends Component<IFilledButtonProps> {
@@ -12,8 +14,9 @@ class FilledButton extends Component<IFilledButtonProps> {
     return (
       <TouchableOpacity
         onPress={this.props.onPress}
+        disabled={this.props.disabled}
         activeOpacity={0.8}
-        style={styles.button}>
+        style={{...styles.button, ...this.props.filledButtonStyle}}>
         <Text style={styles.text}>{this.props.title}</Text>
       </TouchableOpacity>
     );

@@ -5,7 +5,7 @@ import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 interface ITextButtonProps {
   title: string;
   color: string;
-  align: 'flex-start' | 'center';
+  align?: 'flex-start' | 'center' | 'flex-end';
   textButtonStyle?: object;
 }
 
