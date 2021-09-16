@@ -12,7 +12,7 @@ interface IAvatarProps {
   isEditMode: boolean;
 }
 
-class Avatar extends Component<IAvatarProps> {
+class Avatar extends Component<IAvatarProps, {}> {
   render() {
     return (
       <TouchableOpacity

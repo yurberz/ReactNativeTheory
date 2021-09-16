@@ -9,7 +9,7 @@ interface IFilledButtonProps {
   disabled?: boolean;
 }
 
-class FilledButton extends Component<IFilledButtonProps> {
+class FilledButton extends Component<IFilledButtonProps, {}> {
   render() {
     return (
       <TouchableOpacity

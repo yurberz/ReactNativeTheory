@@ -7,19 +7,19 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  TouchableOpacity,
-  Text,
 } from 'react-native';
 
 interface IBackgroundFormProps {
-  title?: string;
-  textButton?: string;
   viewStyle: object;
-  onPress?(): void;
   enabledKeyboardAvoiding?: boolean;
+  prependComponent?: JSX.Element;
+  appendComponent?: JSX.Element;
 }
 
-export default class BackgroundForm extends Component<IBackgroundFormProps> {
+export default class BackgroundForm extends Component<
+  IBackgroundFormProps,
+  {}
+> {
   render() {
     return (
       <ImageBackground
@@ -29,15 +29,7 @@ export default class BackgroundForm extends Component<IBackgroundFormProps> {
         style={styles.backgroundImage}>
         <StatusBar barStyle="light-content" />
 
-        <View style={styles.headerContainerStyle}>
-          <Text style={styles.title}>{this.props.title}</Text>
-          <TouchableOpacity
-            onPress={this.props.onPress}
-            activeOpacity={0.8}
-            style={styles.headerButton}>
-            <Text style={styles.textButton}>{this.props.textButton}</Text>
-          </TouchableOpacity>
-        </View>
+        <View>{this.props.prependComponent}</View>
 
         <KeyboardAvoidingView
           style={styles.backgroundImage}
@@ -54,33 +46,6 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     justifyContent: 'flex-end',
-  },
-  headerContainerStyle: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-    paddingHorizontal: 20,
-    width: '100%',
-    ...Platform.select({
-      ios: {
-        marginTop: '18%',
-      },
-      android: {
-        marginTop: '7%',
-      },
-    }),
-  },
-  title: {
-    flex: 0.5,
-    fontSize: 17,
-    color: '#ffffff',
-  },
-  headerButton: {
-    flex: 0.1,
-  },
-  textButton: {
-    fontSize: 13,
-    color: '#ffffff',
   },
   viewStyle: {
     paddingTop: 30,

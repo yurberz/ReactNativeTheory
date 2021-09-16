@@ -8,7 +8,10 @@ interface ISocialNetworkButtonsFormProps {
   buttonsContainerStyle?: object;
 }
 
-class SocialNetworkButtonsForm extends Component<ISocialNetworkButtonsFormProps> {
+class SocialNetworkButtonsForm extends Component<
+  ISocialNetworkButtonsFormProps,
+  {}
+> {
   render() {
     return (
       <View

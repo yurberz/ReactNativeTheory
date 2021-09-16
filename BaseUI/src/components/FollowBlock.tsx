@@ -6,7 +6,7 @@ interface IFollowBlockProps {
   following: number;
 }
 
-class FollowBlock extends Component<IFollowBlockProps> {
+class FollowBlock extends Component<IFollowBlockProps, {}> {
   render() {
     return (
       <View style={styles.followContainer}>

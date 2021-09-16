@@ -8,7 +8,7 @@ interface ISocialNerworkButtonProps {
   buttonStyle?: object;
 }
 
-class SocialNetworkButton extends Component<ISocialNerworkButtonProps> {
+class SocialNetworkButton extends Component<ISocialNerworkButtonProps, {}> {
   render() {
     return (
       <TouchableOpacity

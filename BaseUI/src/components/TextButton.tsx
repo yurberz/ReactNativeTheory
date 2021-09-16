@@ -7,9 +7,10 @@ interface ITextButtonProps {
   color: string;
   align?: 'flex-start' | 'center' | 'flex-end';
   textButtonStyle?: object;
+  onPress?(): void | boolean;
 }
 
-class TextButton extends Component<ITextButtonProps> {
+class TextButton extends Component<ITextButtonProps, {}> {
   render() {
     return (
       <TouchableOpacity
@@ -18,7 +19,8 @@ class TextButton extends Component<ITextButtonProps> {
           ...this.props.textButtonStyle,
           alignItems: this.props.align,
         }}
-        activeOpacity={0.8}>
+        activeOpacity={0.8}
+        onPress={this.props.onPress}>
         <Text style={{...styles.textStyle, color: this.props.color}}>
           {this.props.title}
         </Text>

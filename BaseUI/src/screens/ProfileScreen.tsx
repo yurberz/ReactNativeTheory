@@ -17,6 +17,7 @@ import BackgroundForm from '../components/BackgroundForm';
 import CredentialTextInput from '../components/CredentialTextInput';
 import FilledButton from '../components/FilledButton';
 import FollowBlock from '../components/FollowBlock';
+import Header from '../components/Header';
 
 interface IProfileScreenState {
   name: string;
@@ -187,10 +188,14 @@ class ProfileScreen extends Component<{}, IProfileScreenState> {
     return (
       <BackgroundForm
         viewStyle={{...styles.viewStyle, paddingTop: isEditMode ? 75 : 60}}
-        title="My profile"
-        textButton={isEditMode ? '' : 'Edit'}
         enabledKeyboardAvoiding={!isShowKeyboard}
-        onPress={this.editOn}>
+        prependComponent={
+          <Header
+            title="My profile"
+            isEditMode={isEditMode}
+            onPress={this.editOn}
+          />
+        }>
         {/* Avatar */}
         <Avatar
           onPress={this.chooseAvatarFromLibrary}
