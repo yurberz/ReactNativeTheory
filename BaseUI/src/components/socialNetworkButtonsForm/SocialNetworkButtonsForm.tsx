@@ -1,12 +1,8 @@
 import React, {Component} from 'react';
-
-import {StyleSheet, View, Platform} from 'react-native';
-
-import SocialNetworkButton from './SocialNetworkButton';
-
-interface ISocialNetworkButtonsFormProps {
-  buttonsContainerStyle?: object;
-}
+import {View, Platform} from 'react-native';
+import SocialNetworkButton from '../socialNetworkButton/SocialNetworkButton';
+import styles from './socialNetworkButtonsFormStyles';
+import {ISocialNetworkButtonsFormProps} from '../../helpers/ts-helpers/interfaces';
 
 class SocialNetworkButtonsForm extends Component<
   ISocialNetworkButtonsFormProps,
@@ -29,15 +25,5 @@ class SocialNetworkButtonsForm extends Component<
     );
   }
 }
-
-const styles = StyleSheet.create({
-  containerStyle: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  buttonStyle: {
-    marginRight: 11,
-  },
-});
 
 export default SocialNetworkButtonsForm;

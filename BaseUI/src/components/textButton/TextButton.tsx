@@ -1,14 +1,7 @@
 import React, {Component} from 'react';
-
-import {Text, StyleSheet, TouchableOpacity} from 'react-native';
-
-interface ITextButtonProps {
-  title: string;
-  color: string;
-  align?: 'flex-start' | 'center' | 'flex-end';
-  textButtonStyle?: object;
-  onPress?(): void | boolean;
-}
+import {Text, TouchableOpacity} from 'react-native';
+import styles from './textButtonStyles';
+import {ITextButtonProps} from '../../helpers/ts-helpers/interfaces';
 
 class TextButton extends Component<ITextButtonProps, {}> {
   render() {
@@ -28,12 +21,5 @@ class TextButton extends Component<ITextButtonProps, {}> {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  touchableOpacityStyle: {},
-  textStyle: {
-    fontSize: 13,
-  },
-});
 
 export default TextButton;

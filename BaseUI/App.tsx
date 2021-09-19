@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-
-import LoginScreen from './src/screens/LoginScreen';
-import ProfileScreen from './src/screens/ProfileScreen';
+import LoginScreen from './src/screens/loginScreen/LoginScreen';
+import ProfileScreen from './src/screens/profileScreen/ProfileScreen';
 
 class App extends Component {
   render() {

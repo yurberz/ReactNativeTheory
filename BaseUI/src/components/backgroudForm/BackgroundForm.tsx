@@ -1,25 +1,15 @@
 import React, {Component} from 'react';
-
 import {
   View,
   ImageBackground,
   StatusBar,
-  StyleSheet,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import styles from './backgroundFormStyles';
+import {IBackgroundFormProps} from '../../helpers/ts-helpers/interfaces';
 
-interface IBackgroundFormProps {
-  viewStyle: object;
-  enabledKeyboardAvoiding?: boolean;
-  prependComponent?: JSX.Element;
-  appendComponent?: JSX.Element;
-}
-
-export default class BackgroundForm extends Component<
-  IBackgroundFormProps,
-  {}
-> {
+class BackgroundForm extends Component<IBackgroundFormProps, {}> {
   render() {
     return (
       <ImageBackground
@@ -42,18 +32,4 @@ export default class BackgroundForm extends Component<
   }
 }
 
-const styles = StyleSheet.create({
-  backgroundImage: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  viewStyle: {
-    paddingTop: 30,
-    paddingBottom: 50,
-    paddingHorizontal: 20,
-    width: '100%',
-    backgroundColor: '#ffffff',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-});
+export default BackgroundForm;

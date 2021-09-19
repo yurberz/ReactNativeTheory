@@ -1,41 +1,21 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-
-import {
-  StyleSheet,
-  Platform,
-  Keyboard,
-  EmitterSubscription,
-} from 'react-native';
+import {Platform, Keyboard, EmitterSubscription} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import Avatar from '../components/Avatar';
-import BackgroundForm from '../components/BackgroundForm';
-import CredentialTextInput from '../components/CredentialTextInput';
-import FilledButton from '../components/FilledButton';
-import FollowBlock from '../components/FollowBlock';
-import Header from '../components/Header';
-
-interface IProfileScreenState {
-  name: string;
-  email: string;
-  followers: number;
-  following: number;
-  image: object;
-  isEditMode: boolean;
-  isShowKeyboard: boolean;
-  errorName: string;
-  errorEmail: string;
-}
-
-interface IUserProfile {
-  name: string;
-  email: string;
-  image: object;
-}
+import Avatar from '../../components/avatar/Avatar';
+import BackgroundForm from '../../components/backgroudForm/BackgroundForm';
+import CredentialTextInput from '../../components/credentialTextInput/CredentialTextInput';
+import FilledButton from '../../components/filledButton/FilledButton';
+import FollowBlock from '../../components/followBlock/FollowBlock';
+import Header from '../../components/header/Header';
+import styles from './profileScreenStyles';
+import {
+  IProfileScreenState,
+  IUserProfile,
+} from '../../helpers/ts-helpers/interfaces';
+import {KeyStorage} from '../../helpers/ts-helpers/enums';
 
 const INITIAL_STATE = {
   name: 'your name',
@@ -47,8 +27,8 @@ const INITIAL_STATE = {
   },
   isEditMode: false,
   isShowKeyboard: false,
-  errorName: '',
-  errorEmail: '',
+  errorName: null,
+  errorEmail: null,
 };
 
 class ProfileScreen extends Component<{}, IProfileScreenState> {
@@ -68,6 +48,18 @@ class ProfileScreen extends Component<{}, IProfileScreenState> {
     this.setState({isShowKeyboard: true});
   };
 
+  handleSubmit = () => {
+    const userProfile = {
+      name: this.state.name,
+      email: this.state.email,
+      image: this.state.image,
+    };
+
+    this.storeData(userProfile);
+
+    this.editOff();
+  };
+
   chooseAvatarFromLibrary = () => {
     ImagePicker.openPicker({
       width: 300,
@@ -83,23 +75,11 @@ class ProfileScreen extends Component<{}, IProfileScreenState> {
     });
   };
 
-  handleSubmit = () => {
-    const userProfile = {
-      name: this.state.name,
-      email: this.state.email,
-      image: this.state.image,
-    };
-
-    this.storeData(userProfile);
-
-    this.editOff();
-  };
-
   storeData = async (value: IUserProfile) => {
     try {
       const jsonValue = JSON.stringify(value);
 
-      await AsyncStorage.setItem('@userProfile', jsonValue);
+      await AsyncStorage.setItem(KeyStorage.UserProfile, jsonValue);
     } catch (err) {
       console.log(err);
     }
@@ -108,7 +88,7 @@ class ProfileScreen extends Component<{}, IProfileScreenState> {
   getData = async () => {
     try {
       const userProfileFromStorage: any = await AsyncStorage.getItem(
-        '@userProfile',
+        KeyStorage.UserProfile,
       );
       const userProfileParse = JSON.parse(userProfileFromStorage);
 
@@ -121,14 +101,12 @@ class ProfileScreen extends Component<{}, IProfileScreenState> {
   };
 
   validateName = (value: string) => {
-    this.setState({name: value});
-
     const regEx = /^([a-zA-Z][a-zA-Z]{2,20})?$/;
 
     if (value === '') {
-      this.setState({errorName: ''});
+      this.setState({errorName: null});
     } else if (regEx.test(value)) {
-      this.setState({errorName: ''});
+      this.setState({errorName: null});
     } else {
       this.setState({
         errorName:
@@ -138,25 +116,35 @@ class ProfileScreen extends Component<{}, IProfileScreenState> {
   };
 
   validateEmail = (value: string) => {
-    this.setState({email: value});
-
     const regEx = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     if (value === '') {
-      this.setState({errorEmail: ''});
+      this.setState({errorEmail: null});
     } else if (regEx.test(value)) {
-      this.setState({errorEmail: ''});
+      this.setState({errorEmail: null});
     } else {
       this.setState({errorEmail: 'Error: invalid e-mail type'});
     }
+  };
+
+  onChangeName = (value: string) => {
+    this.setState({name: value});
+
+    this.validateName(value);
+  };
+
+  onChangeEmail = (value: string) => {
+    this.setState({email: value});
+
+    this.validateEmail(value);
   };
 
   isEnableButton = () => {
     return (
       this.state.name !== '' &&
       this.state.email !== '' &&
-      this.state.errorName === '' &&
-      this.state.errorEmail === ''
+      this.state.errorName === null &&
+      this.state.errorEmail === null
     );
   };
 
@@ -196,24 +184,20 @@ class ProfileScreen extends Component<{}, IProfileScreenState> {
             onPress={this.editOn}
           />
         }>
-        {/* Avatar */}
         <Avatar
           onPress={this.chooseAvatarFromLibrary}
           avatarImg={image}
-          disabled={!isEditMode}
           isEditMode={isEditMode}
           avatarStyle={styles.avatarStyle}
         />
 
-        {/* Follow block */}
         {!isEditMode && (
           <FollowBlock followers={followers} following={following} />
         )}
 
-        {/* Form inputs */}
         <CredentialTextInput
           value={name}
-          onChangeText={value => this.validateName(value)}
+          onChangeText={this.onChangeName}
           editable={isEditMode}
           onFocus={this.keyboardShow}
           inputStyle={styles.inputStyle}
@@ -222,29 +206,19 @@ class ProfileScreen extends Component<{}, IProfileScreenState> {
         />
         <CredentialTextInput
           value={email}
-          onChangeText={value => this.validateEmail(value)}
+          onChangeText={this.onChangeEmail}
           editable={isEditMode}
           onFocus={this.keyboardShow}
           placeholder="Email"
           errorMessage={errorEmail}
         />
 
-        {/* Button */}
         {isEditMode ? (
           <FilledButton
-            filledButtonStyle={{
-              ...Platform.select({
-                ios: {
-                  marginTop: isShowKeyboard ? '20%' : '111%',
-                },
-                android: {
-                  marginTop: isShowKeyboard ? 100 : '97%',
-                },
-              }),
-            }}
+            filledButtonStyle={styles.updateButtonStyle(isShowKeyboard)}
             title="Update profile"
             onPress={this.handleSubmit}
-            disabled={this.isEnableButton() ? false : true}
+            disabled={!this.isEnableButton()}
           />
         ) : (
           <FilledButton
@@ -257,42 +231,5 @@ class ProfileScreen extends Component<{}, IProfileScreenState> {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  viewStyle: {
-    flex: 0.9,
-    paddingTop: 60,
-    paddingBottom: 50,
-    paddingHorizontal: 20,
-    width: '100%',
-    backgroundColor: '#ffffff',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-  avatarStyle: {
-    position: 'absolute',
-    top: -35,
-    left: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 80,
-    height: 80,
-  },
-  inputStyle: {
-    marginBottom: 15,
-  },
-  ...Platform.select({
-    ios: {
-      filledButtonStyle: {
-        marginTop: '70%',
-      },
-    },
-    android: {
-      filledButtonStyle: {
-        marginTop: '56%',
-      },
-    },
-  }),
-});
 
 export default ProfileScreen;

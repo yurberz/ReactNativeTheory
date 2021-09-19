@@ -1,24 +1,19 @@
 import React, {Component} from 'react';
-
-import {Text, StyleSheet, View} from 'react-native';
-
-import BackgroundForm from '../components/BackgroundForm';
-import CredentialTextInput from '../components/CredentialTextInput';
-import FilledButton from '../components/FilledButton';
-import SocialNetworkButtonsForm from '../components/SocialNetworkButtonsForm';
-import TextButton from '../components/TextButton';
-
-interface LoginScreenState {
-  email: string;
-  password: string;
-}
+import {Text, View} from 'react-native';
+import BackgroundForm from '../../components/backgroudForm/BackgroundForm';
+import CredentialTextInput from '../../components/credentialTextInput/CredentialTextInput';
+import FilledButton from '../../components/filledButton/FilledButton';
+import SocialNetworkButtonsForm from '../../components/socialNetworkButtonsForm/SocialNetworkButtonsForm';
+import TextButton from '../../components/textButton/TextButton';
+import styles from './loginScreenStyles';
+import {ILoginScreenState} from '../../helpers/ts-helpers/interfaces';
 
 const INITIAL_STATE = {
   email: '',
   password: '',
 };
 
-class LoginScreen extends Component<{}, LoginScreenState> {
+class LoginScreen extends Component<{}, ILoginScreenState> {
   state = {
     ...INITIAL_STATE,
   };
@@ -37,7 +32,6 @@ class LoginScreen extends Component<{}, LoginScreenState> {
 
     return (
       <BackgroundForm viewStyle={styles.viewStyle}>
-        {/* Form inputs */}
         <View style={styles.inputContainer}>
           <CredentialTextInput
             value={email}
@@ -53,7 +47,6 @@ class LoginScreen extends Component<{}, LoginScreenState> {
           />
         </View>
 
-        {/* Buttons */}
         <TextButton
           title="Forget password?"
           align="flex-start"
@@ -64,7 +57,6 @@ class LoginScreen extends Component<{}, LoginScreenState> {
 
         <Text style={styles.orSignWithStyle}>or sign with</Text>
 
-        {/* Social buttons */}
         <SocialNetworkButtonsForm
           buttonsContainerStyle={styles.buttonsContainerStyle}
         />
@@ -78,36 +70,5 @@ class LoginScreen extends Component<{}, LoginScreenState> {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  viewStyle: {
-    paddingTop: 30,
-    paddingBottom: 50,
-    paddingHorizontal: 20,
-    width: '100%',
-    backgroundColor: '#ffffff',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-  inputContainer: {
-    marginBottom: 30,
-  },
-  inputStyle: {
-    marginBottom: 15,
-  },
-  textButtonStyle: {
-    marginBottom: 40,
-  },
-  orSignWithStyle: {
-    marginTop: 18,
-    marginBottom: 18,
-    textAlign: 'center',
-    fontSize: 13,
-    color: 'rgb(181, 182, 221)',
-  },
-  buttonsContainerStyle: {
-    marginBottom: 30,
-  },
-});
 
 export default LoginScreen;

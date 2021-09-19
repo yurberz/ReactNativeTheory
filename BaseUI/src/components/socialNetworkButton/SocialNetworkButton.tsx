@@ -1,12 +1,8 @@
 import React, {Component} from 'react';
-
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
-interface ISocialNerworkButtonProps {
-  iconName: string;
-  buttonStyle?: object;
-}
+import styles from './socialNetworkButtonStyles';
+import {ISocialNerworkButtonProps} from '../../helpers/ts-helpers/interfaces';
 
 class SocialNetworkButton extends Component<ISocialNerworkButtonProps, {}> {
   render() {
@@ -19,16 +15,5 @@ class SocialNetworkButton extends Component<ISocialNerworkButtonProps, {}> {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  touchableOpacityStyle: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 45,
-    height: 45,
-    borderRadius: 8,
-    backgroundColor: 'rgb(255, 103, 97)',
-  },
-});
 
 export default SocialNetworkButton;

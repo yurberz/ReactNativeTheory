@@ -1,13 +1,7 @@
 import React, {Component} from 'react';
-
-import {Text, StyleSheet, TouchableOpacity} from 'react-native';
-
-interface IFilledButtonProps {
-  title: string;
-  onPress(): void;
-  filledButtonStyle?: object;
-  disabled?: boolean;
-}
+import {Text, TouchableOpacity} from 'react-native';
+import styles from './filledButtonStyles';
+import {IFilledButtonProps} from '../../helpers/ts-helpers/interfaces';
 
 class FilledButton extends Component<IFilledButtonProps, {}> {
   render() {
@@ -22,20 +16,5 @@ class FilledButton extends Component<IFilledButtonProps, {}> {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  button: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: 'rgb(64, 80, 164)',
-  },
-  text: {
-    fontSize: 15,
-    color: '#ffffff',
-  },
-});
 
 export default FilledButton;
