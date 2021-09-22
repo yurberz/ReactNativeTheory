@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Text, TouchableOpacity} from 'react-native';
-import styles from './textButtonStyles';
+import styles from './styles';
 import {ITextButtonProps} from '../../helpers/ts-helpers/interfaces';
 
-class TextButton extends Component<ITextButtonProps, {}> {
+class TextButton extends Component<ITextButtonProps> {
   render() {
     return (
       <TouchableOpacity

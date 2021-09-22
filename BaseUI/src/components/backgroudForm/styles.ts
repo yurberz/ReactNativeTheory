@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
   },
-  viewStyle: {
+  defaultViewStyle: {
     paddingTop: 30,
     paddingBottom: 50,
     paddingHorizontal: 20,

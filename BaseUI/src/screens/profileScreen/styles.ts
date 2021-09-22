@@ -7,15 +7,15 @@ const KEYBOARD_SHOW_MARGIN_TOP = height > 800 ? height - 750 : height - 687;
 const KEYBOARD_HIDE_MARGIN_TOP = height > 800 ? height - 440 : height - 377;
 
 const styles = StyleSheet.create<IStyles>({
+  headerTitleStyle: {
+    flex: 0.5,
+  },
+  headerChildrenBlockStyles: {
+    flex: 0.1,
+  },
   viewStyle: {
     flex: 0.9,
     paddingTop: 60,
-    paddingBottom: 50,
-    paddingHorizontal: 20,
-    width: '100%',
-    backgroundColor: '#ffffff',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
   },
   avatarStyle: {
     position: 'absolute',

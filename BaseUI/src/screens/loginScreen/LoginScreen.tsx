@@ -5,7 +5,7 @@ import CredentialTextInput from '../../components/credentialTextInput/Credential
 import FilledButton from '../../components/filledButton/FilledButton';
 import SocialNetworkButtonsForm from '../../components/socialNetworkButtonsForm/SocialNetworkButtonsForm';
 import TextButton from '../../components/textButton/TextButton';
-import styles from './loginScreenStyles';
+import styles from './styles';
 import {ILoginScreenState} from '../../helpers/ts-helpers/interfaces';
 
 const INITIAL_STATE = {
@@ -31,7 +31,7 @@ class LoginScreen extends Component<{}, ILoginScreenState> {
     const {email, password} = this.state;
 
     return (
-      <BackgroundForm viewStyle={styles.viewStyle}>
+      <BackgroundForm>
         <View style={styles.inputContainer}>
           <CredentialTextInput
             value={email}

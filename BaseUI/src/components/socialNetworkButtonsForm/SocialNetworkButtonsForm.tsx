@@ -1,13 +1,10 @@
 import React, {Component} from 'react';
 import {View, Platform} from 'react-native';
 import SocialNetworkButton from '../socialNetworkButton/SocialNetworkButton';
-import styles from './socialNetworkButtonsFormStyles';
+import styles from './styles';
 import {ISocialNetworkButtonsFormProps} from '../../helpers/ts-helpers/interfaces';
 
-class SocialNetworkButtonsForm extends Component<
-  ISocialNetworkButtonsFormProps,
-  {}
-> {
+class SocialNetworkButtonsForm extends Component<ISocialNetworkButtonsFormProps> {
   render() {
     return (
       <View

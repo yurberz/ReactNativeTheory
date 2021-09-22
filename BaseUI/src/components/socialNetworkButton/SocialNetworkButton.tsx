@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {TouchableOpacity} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import styles from './socialNetworkButtonStyles';
+import styles from './styles';
 import {ISocialNerworkButtonProps} from '../../helpers/ts-helpers/interfaces';
 
-class SocialNetworkButton extends Component<ISocialNerworkButtonProps, {}> {
+class SocialNetworkButton extends Component<ISocialNerworkButtonProps> {
   render() {
     return (
       <TouchableOpacity

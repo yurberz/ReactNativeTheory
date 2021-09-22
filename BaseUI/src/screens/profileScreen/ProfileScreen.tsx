@@ -10,12 +10,13 @@ import CredentialTextInput from '../../components/credentialTextInput/Credential
 import FilledButton from '../../components/filledButton/FilledButton';
 import FollowBlock from '../../components/followBlock/FollowBlock';
 import Header from '../../components/header/Header';
-import styles from './profileScreenStyles';
+import styles from './styles';
 import {
   IProfileScreenState,
   IUserProfile,
 } from '../../helpers/ts-helpers/interfaces';
 import {KeyStorage} from '../../helpers/ts-helpers/enums';
+import TextButton from '../../components/textButton/TextButton';
 
 const INITIAL_STATE = {
   name: 'your name',
@@ -180,9 +181,12 @@ class ProfileScreen extends Component<{}, IProfileScreenState> {
         prependComponent={
           <Header
             title="My profile"
-            isEditMode={isEditMode}
-            onPress={this.editOn}
-          />
+            titleStyle={styles.headerTitleStyle}
+            headerChildrenBlockStyles={styles.headerChildrenBlockStyles}>
+            {!isEditMode && (
+              <TextButton title="Edit" onPress={this.editOn} color="#ffffff" />
+            )}
+          </Header>
         }>
         <Avatar
           onPress={this.chooseAvatarFromLibrary}

@@ -16,13 +16,9 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  title: {
-    flex: 0.5,
+  defaultTitleStyle: {
     fontSize: 17,
     color: '#ffffff',
-  },
-  headerButton: {
-    flex: 0.1,
   },
 });
 
