@@ -97,7 +97,7 @@ export const addPeopleData = [
     title: 'A',
     data: [
       {
-        id: 'a',
+        id: '0.a',
         image: {
           uri: 'https://cdn.pixabay.com/photo/2017/12/16/06/41/avatar-3022215_960_720.jpg',
         },
@@ -106,7 +106,7 @@ export const addPeopleData = [
         isSelected: false,
       },
       {
-        id: 'aa',
+        id: '0.aa',
         image: {
           uri: 'https://cdn.pixabay.com/photo/2017/12/16/06/41/avatar-3022215_960_720.jpg',
         },
@@ -121,7 +121,7 @@ export const addPeopleData = [
     title: 'B',
     data: [
       {
-        id: 'b',
+        id: '1.b',
         image: {
           uri: 'https://cdn.pixabay.com/photo/2017/12/16/06/41/avatar-3022215_960_720.jpg',
         },
@@ -136,7 +136,7 @@ export const addPeopleData = [
     title: 'C',
     data: [
       {
-        id: 'c',
+        id: '2.c',
         image: {
           uri: 'https://cdn.pixabay.com/photo/2017/12/16/06/41/avatar-3022215_960_720.jpg',
         },
@@ -151,7 +151,7 @@ export const addPeopleData = [
     title: 'D',
     data: [
       {
-        id: 'd',
+        id: '3.d',
         image: {
           uri: 'https://cdn.pixabay.com/photo/2017/12/16/06/41/avatar-3022215_960_720.jpg',
         },
@@ -166,7 +166,7 @@ export const addPeopleData = [
     title: 'E',
     data: [
       {
-        id: 'e',
+        id: '4.e',
         image: {
           uri: 'https://cdn.pixabay.com/photo/2017/12/16/06/41/avatar-3022215_960_720.jpg',
         },
@@ -181,7 +181,7 @@ export const addPeopleData = [
     title: 'F',
     data: [
       {
-        id: 'f',
+        id: '5.f',
         image: {
           uri: 'https://cdn.pixabay.com/photo/2017/12/16/06/41/avatar-3022215_960_720.jpg',
         },
@@ -190,7 +190,7 @@ export const addPeopleData = [
         isSelected: false,
       },
       {
-        id: 'ff',
+        id: '5.ff',
         image: {
           uri: 'https://cdn.pixabay.com/photo/2017/12/16/06/41/avatar-3022215_960_720.jpg',
         },
@@ -205,7 +205,7 @@ export const addPeopleData = [
     title: 'G',
     data: [
       {
-        id: 'g',
+        id: '6.g',
         image: {
           uri: 'https://cdn.pixabay.com/photo/2017/12/16/06/41/avatar-3022215_960_720.jpg',
         },
@@ -220,7 +220,7 @@ export const addPeopleData = [
     title: 'H',
     data: [
       {
-        id: 'h',
+        id: '7.h',
         image: {
           uri: 'https://cdn.pixabay.com/photo/2017/12/16/06/41/avatar-3022215_960_720.jpg',
         },
@@ -235,7 +235,7 @@ export const addPeopleData = [
     title: 'I',
     data: [
       {
-        id: 'i',
+        id: '8.i',
         image: {
           uri: 'https://cdn.pixabay.com/photo/2017/12/16/06/41/avatar-3022215_960_720.jpg',
         },
@@ -250,7 +250,7 @@ export const addPeopleData = [
     title: 'J',
     data: [
       {
-        id: 'j',
+        id: '9.j',
         image: {
           uri: 'https://cdn.pixabay.com/photo/2017/12/16/06/41/avatar-3022215_960_720.jpg',
         },
@@ -259,7 +259,7 @@ export const addPeopleData = [
         isSelected: false,
       },
       {
-        id: 'jj',
+        id: '9.jj',
         image: {
           uri: 'https://cdn.pixabay.com/photo/2017/12/16/06/41/avatar-3022215_960_720.jpg',
         },

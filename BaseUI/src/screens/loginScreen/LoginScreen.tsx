@@ -19,7 +19,6 @@ class LoginScreen extends Component<{}, ILoginScreenState> {
   };
 
   handleSubmit = () => {
-    console.log(this.state);
     this.reset();
   };
 

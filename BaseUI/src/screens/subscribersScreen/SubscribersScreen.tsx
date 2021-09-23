@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
 import produce from 'immer';
 import BackgroundForm from '../../components/backgroudForm/BackgroundForm';
@@ -13,7 +13,7 @@ const SubscribersScreen: React.FC = () => {
   const [subscribers, setSubscribers] =
     useState<ISubscriberItem[]>(subscribersData);
 
-  const toggleFollow = (id: string) => {
+  const toggleFollow = useCallback((id: string) => {
     setSubscribers(
       produce(draft => {
         draft.find(item => {
@@ -23,7 +23,7 @@ const SubscribersScreen: React.FC = () => {
         });
       }),
     );
-  };
+  }, []);
 
   const renderItem = ({item}: ListRenderItemInfo<ISubscriberItem>) => {
     return (
