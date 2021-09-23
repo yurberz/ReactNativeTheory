@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useMemo} from 'react';
+import React, {useState, useCallback} from 'react';
 import {
   Text,
   SectionListRenderItemInfo,
@@ -15,6 +15,7 @@ import {
   IAddPeopleItem,
 } from '../../helpers/ts-helpers/interfaces';
 import {addPeopleData} from '../../constants/dummyData';
+import useSearch from '../../hooks/useSearch';
 import BackgroundForm from '../../components/backgroudForm/BackgroundForm';
 import Header from '../../components/header/Header';
 import SubscriberCell from '../../components/subscriberCell/SubscriberCell';
@@ -24,7 +25,6 @@ import SearchInput from '../../components/searchInput/SearchInput';
 const AddPeopleScreen = () => {
   const [people, setPeople] = useState<IAddPeopleState[]>(addPeopleData);
   const [inputValue, setInputValue] = useState('');
-  const [filteredPeople, setFilteredPeople] = useState<IAddPeopleState[]>([]);
 
   const toggleSelect = useCallback((id: string) => {
     setPeople(
@@ -40,37 +40,10 @@ const AddPeopleScreen = () => {
     );
   }, []);
 
-  useMemo(() => {
-    return setFilteredPeople(
-      people.reduce((result: IAddPeopleState[], sectionData) => {
-        const normalizedFilter = inputValue.toLowerCase();
-        const {id, title, data} = sectionData;
-
-        const filteredData = data.filter(item =>
-          item.title.toLowerCase().includes(normalizedFilter),
-        );
-
-        if (filteredData.length !== 0) {
-          result.push({
-            id,
-            title,
-            data: filteredData,
-          });
-        }
-
-        return result;
-      }, []),
-    );
-  }, [inputValue, people]);
-
-  const onChangeValue = (value: string) => {
-    setInputValue(value);
-  };
-
   const deleteRow = rowId => {
     const [section] = rowId.split('.');
 
-    const newData = [...filteredPeople];
+    const newData = [...people];
 
     const prevIndex = filteredPeople[section].data.findIndex(
       item => item.id === rowId,
@@ -78,7 +51,13 @@ const AddPeopleScreen = () => {
 
     newData[section].data.splice(prevIndex, 1);
 
-    setFilteredPeople(newData);
+    setPeople(newData);
+  };
+
+  const filteredPeople = useSearch(people, inputValue);
+
+  const onChangeValue = (value: string) => {
+    setInputValue(value);
   };
 
   const renderHeader = ({
