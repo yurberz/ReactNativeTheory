@@ -9,9 +9,9 @@ class App extends Component {
     return (
       <>
         {/* <LoginScreen /> */}
-        {/* <ProfileScreen /> */}
+        <ProfileScreen />
         {/* <SubscribersScreen /> */}
-        <AddPeopleScreen />
+        {/* <AddPeopleScreen /> */}
       </>
     );
   }

@@ -16,7 +16,9 @@ class Avatar extends Component<IAvatarProps> {
         <ImageBackground
           style={styles.imageBackgroud}
           imageStyle={{borderRadius: 15}}
-          source={this.props.avatarImg}>
+          source={{
+            uri: this.props.avatarImg,
+          }}>
           {this.props.isEditMode && (
             <FontAwesome
               name="camera"

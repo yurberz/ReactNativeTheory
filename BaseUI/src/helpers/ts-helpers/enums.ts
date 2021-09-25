@@ -1,3 +1,10 @@
 export enum KeyStorage {
-  UserProfile = '@userProfile',
+  userName = '@userName',
+  userEmail = '@userEmail',
+  userAvatar = '@userAvatar',
+}
+
+export enum OrientationType {
+  portrait = 'portrait',
+  landscape = 'landscape',
 }
