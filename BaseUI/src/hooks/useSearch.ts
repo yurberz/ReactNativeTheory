@@ -1,9 +1,9 @@
 import {useMemo} from 'react';
-import {IAddPeopleState} from '../helpers/ts-helpers/interfaces';
+import {IAddPeople} from '../helpers/ts-helpers/interfaces';
 
-const useSearch = (people: IAddPeopleState[], query: string) => {
+const useSearch = (people: IAddPeople[], query: string): IAddPeople[] => {
   const filteredPeople = useMemo(() => {
-    return people.reduce((result: IAddPeopleState[], sectionData) => {
+    return people.reduce((result: IAddPeople[], sectionData) => {
       const normalizedFilter = query.toLowerCase();
       const {id, title, data} = sectionData;
 

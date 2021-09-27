@@ -108,9 +108,10 @@ export interface IAddPeopleItem extends Omit<ISubscriberItem, 'isFollowing'> {
 export interface ISubscriberCellProps {
   subscriber: ISubscriberItem | IAddPeopleItem;
   onPressFollowButton?(): void;
+  appendComponent?: JSX.Element;
 }
 
-export interface IAddPeopleState {
+export interface IAddPeople {
   id?: string;
   title: string;
   data: IAddPeopleItem[];
@@ -119,4 +120,8 @@ export interface IAddPeopleState {
 export interface ISearchInputProps {
   value: string;
   onChangeText(text: string): void;
+}
+
+export interface IHiddenItemProps {
+  onPress(): void;
 }

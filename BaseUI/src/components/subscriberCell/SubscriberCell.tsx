@@ -5,7 +5,7 @@ import {ISubscriberCellProps} from '../../helpers/ts-helpers/interfaces';
 
 const SubscriberCell: React.FC<ISubscriberCellProps> = ({
   subscriber,
-  children,
+  appendComponent,
 }) => {
   return (
     <View style={styles.cell}>
@@ -17,7 +17,7 @@ const SubscriberCell: React.FC<ISubscriberCellProps> = ({
         </View>
       </View>
 
-      {children}
+      {appendComponent}
     </View>
   );
 };

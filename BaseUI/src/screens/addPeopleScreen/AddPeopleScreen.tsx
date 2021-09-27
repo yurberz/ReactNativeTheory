@@ -3,17 +3,11 @@ import {
   Text,
   SectionListRenderItemInfo,
   SectionListData,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import produce from 'immer';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import styles from './styles';
-import {
-  IAddPeopleState,
-  IAddPeopleItem,
-} from '../../helpers/ts-helpers/interfaces';
+import {IAddPeople, IAddPeopleItem} from '../../helpers/ts-helpers/interfaces';
 import {addPeopleData} from '../../constants/dummyData';
 import useSearch from '../../hooks/useSearch';
 import BackgroundForm from '../../components/backgroudForm/BackgroundForm';
@@ -21,33 +15,35 @@ import Header from '../../components/header/Header';
 import SubscriberCell from '../../components/subscriberCell/SubscriberCell';
 import CheckBox from '../../components/checkBox/CheckBox';
 import SearchInput from '../../components/searchInput/SearchInput';
+import HiddenItem from '../../components/hiddenItem/HiddenItem';
 
 const AddPeopleScreen = () => {
-  const [people, setPeople] = useState<IAddPeopleState[]>(addPeopleData);
+  const [people, setPeople] = useState<IAddPeople[]>(addPeopleData);
   const [inputValue, setInputValue] = useState('');
 
-  const toggleSelect = useCallback((id: string) => {
-    setPeople(
-      produce(draft => {
-        draft.map(item => {
-          return item.data.find(subItem => {
-            if (subItem.id === id) {
-              subItem.isSelected = !subItem.isSelected;
-            }
-          });
-        });
-      }),
-    );
-  }, []);
+  const toggleSelect = useCallback(
+    (id: string) => {
+      const newData = [...people];
 
-  const deleteRow = rowId => {
+      newData.map(item => {
+        item.data.find(subItem => {
+          if (subItem.id === id) {
+            subItem.isSelected = !subItem.isSelected;
+          }
+        });
+      });
+
+      setPeople(newData);
+    },
+    [people],
+  );
+
+  const deleteRow = (rowId: string | number) => {
     const [section] = rowId.split('.');
 
     const newData = [...people];
 
-    const prevIndex = filteredPeople[section].data.findIndex(
-      item => item.id === rowId,
-    );
+    const prevIndex = people[section].data.findIndex(item => item.id === rowId);
 
     newData[section].data.splice(prevIndex, 1);
 
@@ -71,12 +67,15 @@ const AddPeopleScreen = () => {
   const renderItem = ({item}: SectionListRenderItemInfo<IAddPeopleItem>) => {
     return (
       <View style={styles.rowFront}>
-        <SubscriberCell subscriber={item}>
-          <CheckBox
-            subscriber={item}
-            onPressFollowButton={() => toggleSelect(item.id)}
-          />
-        </SubscriberCell>
+        <SubscriberCell
+          subscriber={item}
+          appendComponent={
+            <CheckBox
+              subscriber={item}
+              onPressFollowButton={() => toggleSelect(item.id)}
+            />
+          }
+        />
       </View>
     );
   };
@@ -84,14 +83,7 @@ const AddPeopleScreen = () => {
   const renderHiddenItem = ({
     item,
   }: SectionListRenderItemInfo<IAddPeopleItem>) => (
-    <View style={styles.rowBack}>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={styles.backRightBtn}
-        onPress={() => deleteRow(item.id)}>
-        <FontAwesome name="trash" size={20} color="#000000" />
-      </TouchableOpacity>
-    </View>
+    <HiddenItem onPress={() => deleteRow(item.id)} />
   );
 
   return (

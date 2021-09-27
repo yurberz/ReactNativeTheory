@@ -1,6 +1,5 @@
 import React, {useState, useCallback} from 'react';
 import {FlatList, ListRenderItemInfo} from 'react-native';
-import produce from 'immer';
 import BackgroundForm from '../../components/backgroudForm/BackgroundForm';
 import Header from '../../components/header/Header';
 import SubscriberCell from '../../components/subscriberCell/SubscriberCell';
@@ -14,25 +13,26 @@ const SubscribersScreen: React.FC = () => {
     useState<ISubscriberItem[]>(subscribersData);
 
   const toggleFollow = useCallback((id: string) => {
-    setSubscribers(
-      produce(draft => {
-        draft.find(item => {
-          if (item.id === id) {
-            item.isFollowing = !item.isFollowing;
-          }
-        });
-      }),
+    setSubscribers(prevState =>
+      prevState.map(subscriber =>
+        subscriber.id === id
+          ? {...subscriber, isFollowing: !subscriber.isFollowing}
+          : subscriber,
+      ),
     );
   }, []);
 
   const renderItem = ({item}: ListRenderItemInfo<ISubscriberItem>) => {
     return (
-      <SubscriberCell subscriber={item}>
-        <FollowButton
-          subscriber={item}
-          onPressFollowButton={() => toggleFollow(item.id)}
-        />
-      </SubscriberCell>
+      <SubscriberCell
+        subscriber={item}
+        appendComponent={
+          <FollowButton
+            subscriber={item}
+            onPressFollowButton={() => toggleFollow(item.id)}
+          />
+        }
+      />
     );
   };
 
