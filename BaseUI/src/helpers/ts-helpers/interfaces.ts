@@ -1,21 +1,15 @@
 import {ImageSourcePropType, TextStyle, ViewStyle} from 'react-native';
 
 export interface IProfileScreenState {
-  name: string;
-  email: string;
+  name?: string;
+  email?: string;
   followers: number;
   following: number;
-  image: object;
+  image?: string;
   isEditMode: boolean;
   isShowKeyboard: boolean;
-  errorName: string | null;
-  errorEmail: string | null;
-}
-
-export interface IUserProfile {
-  name: string;
-  email: string;
-  image: object;
+  errorName?: string | null;
+  errorEmail?: string | null;
 }
 
 export interface IStyles {
@@ -35,7 +29,7 @@ export interface ILoginScreenState {
 
 export interface IAvatarProps {
   avatarStyle?: object;
-  avatarImg: object;
+  avatarImg: string;
   onPress(): void;
   isEditMode: boolean;
 }
