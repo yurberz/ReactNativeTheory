@@ -2,10 +2,10 @@
 import React, {Component} from 'react';
 import {ImageBackground, TouchableOpacity} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import styles from './avatarStyles';
+import styles from './styles';
 import {IAvatarProps} from '../../helpers/ts-helpers/interfaces';
 
-class Avatar extends Component<IAvatarProps, {}> {
+class Avatar extends Component<IAvatarProps> {
   render() {
     return (
       <TouchableOpacity
@@ -30,18 +30,5 @@ class Avatar extends Component<IAvatarProps, {}> {
     );
   }
 }
-
-// const styles = StyleSheet.create({
-//   imageBackgroud: {
-//     width: 80,
-//     height: 80,
-//   },
-//   cameraIcon: {
-//     position: 'absolute',
-//     right: 7,
-//     bottom: 5,
-//     opacity: 0.5,
-//   },
-// });
 
 export default Avatar;

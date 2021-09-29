@@ -6,10 +6,10 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import styles from './backgroundFormStyles';
+import styles from './styles';
 import {IBackgroundFormProps} from '../../helpers/ts-helpers/interfaces';
 
-class BackgroundForm extends Component<IBackgroundFormProps, {}> {
+class BackgroundForm extends Component<IBackgroundFormProps> {
   render() {
     return (
       <ImageBackground
@@ -25,7 +25,9 @@ class BackgroundForm extends Component<IBackgroundFormProps, {}> {
           style={styles.backgroundImage}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           enabled={this.props.enabledKeyboardAvoiding}>
-          <View style={this.props.viewStyle}>{this.props.children}</View>
+          <View style={{...styles.defaultViewStyle, ...this.props.viewStyle}}>
+            {this.props.children}
+          </View>
         </KeyboardAvoidingView>
       </ImageBackground>
     );

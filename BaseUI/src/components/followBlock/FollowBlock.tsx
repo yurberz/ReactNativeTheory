@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
-import styles from './followBlockStyles';
+import styles from './styles';
 import {IFollowBlockProps} from '../../helpers/ts-helpers/interfaces';
 
-class FollowBlock extends Component<IFollowBlockProps, {}> {
+class FollowBlock extends Component<IFollowBlockProps> {
   render() {
     return (
       <View style={styles.followContainer}>

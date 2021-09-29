@@ -1,4 +1,4 @@
-import {ViewStyle} from 'react-native';
+import {ImageSourcePropType, TextStyle, ViewStyle} from 'react-native';
 
 export interface IProfileScreenState {
   name: string;
@@ -19,6 +19,8 @@ export interface IUserProfile {
 }
 
 export interface IStyles {
+  headerTitleStyle: TextStyle;
+  headerChildrenBlockStyles: ViewStyle;
   viewStyle: ViewStyle;
   avatarStyle: ViewStyle;
   inputStyle: ViewStyle;
@@ -39,7 +41,7 @@ export interface IAvatarProps {
 }
 
 export interface IBackgroundFormProps {
-  viewStyle: object;
+  viewStyle?: object;
   enabledKeyboardAvoiding?: boolean;
   prependComponent?: JSX.Element;
   appendComponent?: JSX.Element;
@@ -69,9 +71,9 @@ export interface IFollowBlockProps {
 }
 
 export interface IHeaderProps {
-  title?: string;
-  isEditMode?: boolean;
-  onPress?(): void;
+  title: string;
+  titleStyle: object;
+  headerChildrenBlockStyles?: object;
 }
 
 export interface ISocialNerworkButtonProps {
@@ -89,4 +91,37 @@ export interface ITextButtonProps {
   align?: 'flex-start' | 'center' | 'flex-end';
   textButtonStyle?: object;
   onPress?(): void | boolean;
+}
+
+export interface ISubscriberItem {
+  id: string;
+  image: ImageSourcePropType;
+  title: string;
+  description: string;
+  isFollowing: boolean;
+}
+
+export interface IAddPeopleItem extends Omit<ISubscriberItem, 'isFollowing'> {
+  isSelected: boolean;
+}
+
+export interface ISubscriberCellProps {
+  subscriber: ISubscriberItem | IAddPeopleItem;
+  onPressFollowButton?(): void;
+  appendComponent?: JSX.Element;
+}
+
+export interface IAddPeople {
+  id?: string;
+  title: string;
+  data: IAddPeopleItem[];
+}
+
+export interface ISearchInputProps {
+  value: string;
+  onChangeText(text: string): void;
+}
+
+export interface IHiddenItemProps {
+  onPress(): void;
 }
