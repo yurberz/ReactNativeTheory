@@ -125,3 +125,38 @@ export interface ISearchInputProps {
 export interface IHiddenItemProps {
   onPress(): void;
 }
+
+export interface IApiImage<T> {
+  fetchPhotos(value: number): Promise<Array<T>>;
+  likePhoto(value: string): Promise<T>;
+  unlikePhoto(value: string): Promise<T>;
+}
+
+export interface IPhotoDataResponse {
+  photo: any;
+  id: string;
+  user?: {
+    name: string;
+    profile_image?: {small?: string};
+  };
+  urls?: {small: string};
+  liked_by_user: boolean;
+  likes: number;
+}
+
+export interface IHeaderImageCellProps {
+  profileUrl?: string;
+  authorName?: string;
+}
+
+export interface IFooterImageCellProps {
+  liked_by_user?: boolean;
+  likes?: number;
+  onPress(): void;
+}
+
+export interface ImageCellProps {
+  imageUrl?: string;
+  headerProps: IHeaderImageCellProps;
+  footerProps: IFooterImageCellProps;
+}
