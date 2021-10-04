@@ -3,10 +3,10 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   viewStyle: {
     flex: 1,
-    marginTop: 10,
   },
   headerTitleStyle: {
-    flex: 0.6,
+    marginTop: -25,
+    flex: 0.57,
   },
   flatListStyle: {
     flex: 1,

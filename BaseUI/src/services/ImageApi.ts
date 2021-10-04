@@ -1,50 +1,44 @@
-import {ACCESS_KEY, ACCESS_TOKEN} from 'react-native-dotenv';
-import {IApiImage, IPhotoDataResponse} from '../helpers/ts-helpers/interfaces';
-
-const baseURL = 'https://api.unsplash.com';
+import {ACCESS_TOKEN} from 'react-native-dotenv';
+import {
+  IApiImage,
+  IPhotoDataResponse,
+  ISearchDataResponse,
+} from '../helpers/ts-helpers/interfaces';
+import {TArgFetchPhotos} from '../helpers/ts-helpers/types';
+import request from './apiManager';
+import {RequestType} from '../helpers/ts-helpers/enums';
 
 class ImageApi<T> implements IApiImage<T> {
-  private async init(page: number): Promise<Response> {
-    return fetch(`${baseURL}/photos/?client_id=${ACCESS_KEY}&page=${page}`, {
-      headers: {
-        Accept: 'application/json',
-      },
+  private token: string = ACCESS_TOKEN;
+
+  async fetchPhotos(arg: TArgFetchPhotos): Promise<T[]> {
+    return request<T[]>(RequestType.fetchPhotos, {
+      token: this.token,
+      urlParams: arg,
     });
   }
 
-  private async auth(id: string, method: string): Promise<Response> {
-    return fetch(`${baseURL}/photos/${id}/like`, {
-      method: method,
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-      },
+  async searchPhotos(arg: object): Promise<T> {
+    return request<T>(RequestType.searchPhotos, {
+      token: this.token,
+      urlParams: arg,
     });
   }
 
-  async fetchPhotos(page: number): Promise<Array<T>> {
-    return this.init(page)
-      .then(response => response.json())
-      .then(data => {
-        return data as T[];
-      });
+  async likePhoto(id: string[]): Promise<T> {
+    return request<T>(RequestType.likePhoto, {
+      token: this.token,
+      params: id,
+    });
   }
 
-  async likePhoto(id: string): Promise<T> {
-    return this.auth(id, 'POST')
-      .then(response => response.json())
-      .then(data => {
-        return data as T;
-      });
-  }
-
-  async unlikePhoto(id: string): Promise<T> {
-    return this.auth(id, 'DELETE')
-      .then(response => response.json())
-      .then(data => {
-        return data as T;
-      });
+  async unlikePhoto(id: string[]): Promise<T> {
+    return request<T>(RequestType.unlikePhoto, {
+      token: this.token,
+      params: id,
+    });
   }
 }
 
-export default new ImageApi<IPhotoDataResponse>();
+export const imageApi = new ImageApi<IPhotoDataResponse>();
+export const searchImageApi = new ImageApi<ISearchDataResponse>();

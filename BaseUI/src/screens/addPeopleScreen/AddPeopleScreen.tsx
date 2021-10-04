@@ -92,7 +92,11 @@ const AddPeopleScreen = () => {
       prependComponent={
         <>
           <Header title="Add people" titleStyle={styles.headerTitleStyle} />
-          <SearchInput value={inputValue} onChangeText={onChangeValue} />
+          <SearchInput
+            value={inputValue}
+            placeholder="Search people..."
+            onChangeText={onChangeValue}
+          />
         </>
       }>
       <SwipeListView

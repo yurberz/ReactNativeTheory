@@ -1,4 +1,6 @@
+import {SyntheticEvent} from 'react';
 import {ImageSourcePropType, TextStyle, ViewStyle} from 'react-native';
+import {TArgFetchPhotos, TPhoto, TPhotoModel, TSortButton} from './types';
 
 export interface IProfileScreenState {
   name: string;
@@ -119,7 +121,10 @@ export interface IAddPeople {
 
 export interface ISearchInputProps {
   value: string;
+  placeholder: string;
   onChangeText(text: string): void;
+  onFocus?(evt: SyntheticEvent): void;
+  onBlur?(): void;
 }
 
 export interface IHiddenItemProps {
@@ -127,13 +132,14 @@ export interface IHiddenItemProps {
 }
 
 export interface IApiImage<T> {
-  fetchPhotos(value: number): Promise<Array<T>>;
-  likePhoto(value: string): Promise<T>;
-  unlikePhoto(value: string): Promise<T>;
+  fetchPhotos(arg: TArgFetchPhotos): Promise<Array<T>>;
+  searchPhotos(arg: object): Promise<T>;
+  likePhoto(value: string[]): Promise<T>;
+  unlikePhoto(value: string[]): Promise<T>;
 }
 
 export interface IPhotoDataResponse {
-  photo: any;
+  photo: TPhoto;
   id: string;
   user?: {
     name: string;
@@ -142,6 +148,10 @@ export interface IPhotoDataResponse {
   urls?: {small: string};
   liked_by_user: boolean;
   likes: number;
+}
+
+export interface ISearchDataResponse {
+  results: IPhotoDataResponse[];
 }
 
 export interface IHeaderImageCellProps {
@@ -159,4 +169,35 @@ export interface ImageCellProps {
   imageUrl?: string;
   headerProps: IHeaderImageCellProps;
   footerProps: IFooterImageCellProps;
+}
+
+export interface IRequestParams {
+  body?: object;
+  token?: string;
+  urlParams?: object;
+  params?: string[];
+}
+
+export interface IPhotosState {
+  items: TPhotoModel[];
+  loading: boolean;
+  error: string | undefined;
+}
+
+export interface ISortBarProps {
+  data: TSortButton[];
+  onValueChange(value: string): void;
+}
+
+export interface ISortButtonProps {
+  cb(value: number): void;
+  text: string;
+  id: number;
+  selectedIndex: number;
+}
+
+export interface ISortButtonStyles {
+  button: ViewStyle;
+  selectedButton(value: boolean): ViewStyle;
+  text(value: boolean): TextStyle;
 }

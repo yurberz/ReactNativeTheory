@@ -5,109 +5,81 @@ import {
   FlatList,
   ListRenderItemInfo,
   ActivityIndicator,
+  NativeSyntheticEvent,
+  TextInputChangeEventData,
 } from 'react-native';
 import styles from './styles';
 import {TPhotoModel} from '../../helpers/ts-helpers/types';
-import imageApi from '../../services/ImageApi';
+import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
+import useDebounce from '../../hooks/useDebounce';
+import {photos, loading} from '../../redux/selectors/photosSeletor';
+import {
+  fetchPhotos,
+  addLike,
+  deleteLike,
+  searchPhotos,
+} from '../../redux/actions/async/photosOperations';
 import BackgroundForm from '../../components/backgroudForm/BackgroundForm';
 import Header from '../../components/header/Header';
 import ImageCell from '../../components/imageCell/ImageCell';
 import FilledButton from '../../components/filledButton/FilledButton';
+import SearchInput from '../../components/searchInput/SearchInput';
+import {clearImagesData} from '../../redux/reducers/photosReducer';
+import SortBar from '../../components/sortBar/SortBar';
 
 const ImagesScreen: React.FC = () => {
-  const [state, setState] = useState<TPhotoModel[]>([]);
+  const dispatch = useAppDispatch();
+  const images = useAppSelector(photos);
+  const isLoading = useAppSelector(loading);
   const [page, setPage] = useState<number>(1);
-  const [loading, setLoading] = useState<boolean>(false);
   const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [inputValue, setInputValue] = useState('');
+  const [isSearchData, setIsSearchData] = useState<boolean>(false);
+  const [order_by, setOrder_by] = useState('latest');
+  const debouncedInputValue = useDebounce(inputValue, 500);
 
-  const addLike = async (id: string) => {
-    await imageApi.likePhoto(id).then(value => {
-      const updatedData = state.map(item => {
-        if (item.id === id) {
-          return (item = {
-            id: item.id,
-            imageUrl: item.imageUrl,
-            profileImageUrl: item.profileImageUrl,
-            name: item.name,
-            isLiked: value.photo?.liked_by_user,
-            likes: value.photo?.likes,
-          });
-        } else {
-          return item;
-        }
-      });
-
-      setState(updatedData);
-    });
-  };
-
-  const deleteLike = async (id: string) => {
-    await imageApi.unlikePhoto(id).then(value => {
-      const updatedData = state.map(item => {
-        if (item.id === id) {
-          return (item = {
-            id: item.id,
-            imageUrl: item.imageUrl,
-            profileImageUrl: item.profileImageUrl,
-            name: item.name,
-            isLiked: value.photo?.liked_by_user,
-            likes: value.photo?.likes,
-          });
-        } else {
-          return item;
-        }
-      });
-
-      setState(updatedData);
-    });
-  };
-
-  const getImages = async () => {
-    setPage(1);
-
+  useEffect(() => {
     setRefreshing(true);
-
-    await imageApi.fetchPhotos(page).then(values => {
-      setState(
-        values.map(value => ({
-          id: value.id,
-          imageUrl: value.urls?.small,
-          profileImageUrl: value.user?.profile_image?.small,
-          name: value.user?.name,
-          isLiked: value.liked_by_user,
-          likes: value.likes,
-        })),
-      );
-    });
-
+    dispatch(fetchPhotos({page, order_by}));
     setRefreshing(false);
+  }, [dispatch, page, order_by]);
+
+  useEffect(() => {
+    if (debouncedInputValue) {
+      dispatch(searchPhotos(debouncedInputValue));
+    }
+  }, [debouncedInputValue, dispatch]);
+
+  const refreshImages = () => {
+    setPage(1);
   };
 
-  const handleRefresh = async () => {
-    setLoading(true);
+  const handleGetImages = () => {
+    setPage(page + 1);
+  };
 
-    await imageApi
-      .fetchPhotos(page)
-      .then(values => {
-        setPage(page + 1);
+  const onBlur = () => {
+    if (inputValue.length === 0) {
+      setIsSearchData(false);
+      dispatch(fetchPhotos({page, order_by}));
+    }
+  };
 
-        setState([
-          ...state,
-          ...values.map(value => ({
-            id: value.id,
-            imageUrl: value.urls?.small,
-            profileImageUrl: value.user?.profile_image?.small,
-            name: value.user?.name,
-            isLiked: value.liked_by_user,
-            likes: value.likes,
-          })),
-        ]);
-      })
-      .catch(err => {
-        console.log('fetch error:', err);
-      });
+  const onChangeValue = (value: string) => {
+    setIsSearchData(true);
+    setInputValue(value);
 
-    setLoading(false);
+    if (!isSearchData) {
+      dispatch(clearImagesData());
+    }
+  };
+
+  const addLikeToPhoto = (id: string) => {
+    dispatch(addLike([id]));
+  };
+
+  const deleteLikeToPhoto = (id: string) => {
+    dispatch(deleteLike([id]));
   };
 
   const renderItem = ({item}: ListRenderItemInfo<TPhotoModel>) => {
@@ -121,8 +93,8 @@ const ImagesScreen: React.FC = () => {
         footerProps={{
           likes: item.likes,
           onPress: item.isLiked
-            ? () => deleteLike(item.id)
-            : () => addLike(item.id),
+            ? () => deleteLikeToPhoto(item.id)
+            : () => addLikeToPhoto(item.id),
         }}
       />
     );
@@ -141,39 +113,74 @@ const ImagesScreen: React.FC = () => {
   };
 
   const ListFooterComponent = () => {
-    return (
-      <View style={styles.flatListFooterStyle}>
-        {loading ? (
-          <ActivityIndicator size="small" />
-        ) : (
-          <FilledButton title="MOAR" onPress={handleRefresh} />
-        )}
-      </View>
-    );
+    if (images?.length > 0) {
+      return (
+        <View style={styles.flatListFooterStyle}>
+          {isLoading ? (
+            <ActivityIndicator size="small" />
+          ) : (
+            <FilledButton title="MOAR" onPress={handleGetImages} />
+          )}
+        </View>
+      );
+    } else {
+      return null;
+    }
   };
-
-  useEffect(() => {
-    getImages();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <BackgroundForm
       viewStyle={styles.viewStyle}
       prependComponent={
-        <Header title="Images" titleStyle={styles.headerTitleStyle} />
+        <>
+          <Header title="Images" titleStyle={styles.headerTitleStyle} />
+          <SearchInput
+            value={inputValue}
+            placeholder="Search images..."
+            onChangeText={onChangeValue}
+            onFocus={(evt: NativeSyntheticEvent<TextInputChangeEventData>) =>
+              onChangeValue(evt.nativeEvent.text)
+            }
+            onBlur={onBlur}
+          />
+        </>
       }>
-      <FlatList
-        style={styles.flatListStyle}
-        data={state}
-        keyExtractor={(_, index) => String(index)}
-        renderItem={renderItem}
-        ListEmptyComponent={ListEmptyComponent}
-        ItemSeparatorComponent={ItemSeparatorComponent}
-        ListFooterComponent={ListFooterComponent}
-        refreshing={refreshing}
-        onRefresh={getImages}
-      />
+      {!isSearchData && (
+        <SortBar
+          data={[
+            {id: '1', title: 'latest'},
+            {id: '2', title: 'oldest'},
+            {id: '3', title: 'popular'},
+          ]}
+          onValueChange={value => {
+            setOrder_by(value);
+            dispatch(fetchPhotos({page, order_by}));
+          }}
+        />
+      )}
+
+      {!isSearchData ? (
+        <FlatList
+          style={styles.flatListStyle}
+          data={images}
+          keyExtractor={(_, index) => String(index)}
+          renderItem={renderItem}
+          ListEmptyComponent={ListEmptyComponent}
+          ItemSeparatorComponent={ItemSeparatorComponent}
+          ListFooterComponent={ListFooterComponent}
+          refreshing={refreshing}
+          onRefresh={refreshImages}
+        />
+      ) : (
+        <FlatList
+          style={styles.flatListStyle}
+          data={images}
+          keyExtractor={(_, index) => String(index)}
+          renderItem={renderItem}
+          ListEmptyComponent={ListEmptyComponent}
+          ItemSeparatorComponent={ItemSeparatorComponent}
+        />
+      )}
     </BackgroundForm>
   );
 };
