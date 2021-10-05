@@ -65,3 +65,4 @@ buck-out/
 # other
 
 myNote.txt
+.env
