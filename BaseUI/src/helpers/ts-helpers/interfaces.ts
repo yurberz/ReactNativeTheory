@@ -150,7 +150,7 @@ export interface IHeaderImageCellProps {
 }
 
 export interface IFooterImageCellProps {
-  liked_by_user?: boolean;
+  likedByUser?: boolean;
   likes?: number;
   onPress(): void;
 }

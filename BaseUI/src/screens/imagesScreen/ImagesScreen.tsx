@@ -13,101 +13,75 @@ import BackgroundForm from '../../components/backgroudForm/BackgroundForm';
 import Header from '../../components/header/Header';
 import ImageCell from '../../components/imageCell/ImageCell';
 import FilledButton from '../../components/filledButton/FilledButton';
+import {IPhotoDataResponse} from '../../helpers/ts-helpers/interfaces';
 
 const ImagesScreen: React.FC = () => {
   const [state, setState] = useState<TPhotoModel[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
-  const addLike = async (id: string) => {
-    await imageApi.likePhoto(id).then(value => {
-      const updatedData = state.map(item => {
-        if (item.id === id) {
-          return (item = {
-            id: item.id,
-            imageUrl: item.imageUrl,
-            profileImageUrl: item.profileImageUrl,
-            name: item.name,
-            isLiked: value.photo?.liked_by_user,
-            likes: value.photo?.likes,
-          });
-        } else {
-          return item;
-        }
-      });
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await imageApi.fetchPhotos(page);
 
-      setState(updatedData);
+        const data = response.map(item => ({
+          id: item.id,
+          imageUrl: item.urls?.small,
+          profileImageUrl: item.user?.profile_image?.small,
+          name: item.user?.name,
+          isLiked: item.liked_by_user,
+          likes: item.likes,
+        }));
+
+        setState(data);
+
+        if (page > 1) {
+          setState([...state, ...data]);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    setIsLoading(true);
+    setRefreshing(true);
+    fetchImages();
+    setIsLoading(false);
+    setRefreshing(false);
+  }, [page]);
+
+  const getImages = () => {
+    setPage(1);
+  };
+
+  const handleRefresh = () => {
+    setPage(page + 1);
+  };
+
+  const updateLike = (value: IPhotoDataResponse, id: string) => {
+    const updateData = state.map(item => {
+      if (item.id === id) {
+        return (item = {
+          ...item,
+          isLiked: value.photo?.liked_by_user,
+          likes: value.photo?.likes,
+        });
+      } else {
+        return item;
+      }
     });
+
+    setState(updateData);
+  };
+
+  const addLike = async (id: string) => {
+    await imageApi.likePhoto(id).then(value => updateLike(value, id));
   };
 
   const deleteLike = async (id: string) => {
-    await imageApi.unlikePhoto(id).then(value => {
-      const updatedData = state.map(item => {
-        if (item.id === id) {
-          return (item = {
-            id: item.id,
-            imageUrl: item.imageUrl,
-            profileImageUrl: item.profileImageUrl,
-            name: item.name,
-            isLiked: value.photo?.liked_by_user,
-            likes: value.photo?.likes,
-          });
-        } else {
-          return item;
-        }
-      });
-
-      setState(updatedData);
-    });
-  };
-
-  const getImages = async () => {
-    setPage(1);
-
-    setRefreshing(true);
-
-    await imageApi.fetchPhotos(page).then(values => {
-      setState(
-        values.map(value => ({
-          id: value.id,
-          imageUrl: value.urls?.small,
-          profileImageUrl: value.user?.profile_image?.small,
-          name: value.user?.name,
-          isLiked: value.liked_by_user,
-          likes: value.likes,
-        })),
-      );
-    });
-
-    setRefreshing(false);
-  };
-
-  const handleRefresh = async () => {
-    setLoading(true);
-
-    await imageApi
-      .fetchPhotos(page)
-      .then(values => {
-        setPage(page + 1);
-
-        setState([
-          ...state,
-          ...values.map(value => ({
-            id: value.id,
-            imageUrl: value.urls?.small,
-            profileImageUrl: value.user?.profile_image?.small,
-            name: value.user?.name,
-            isLiked: value.liked_by_user,
-            likes: value.likes,
-          })),
-        ]);
-      })
-      .catch(err => {
-        console.log('fetch error:', err);
-      });
-
-    setLoading(false);
+    await imageApi.unlikePhoto(id).then(value => updateLike(value, id));
   };
 
   const renderItem = ({item}: ListRenderItemInfo<TPhotoModel>) => {
@@ -143,19 +117,14 @@ const ImagesScreen: React.FC = () => {
   const ListFooterComponent = () => {
     return (
       <View style={styles.flatListFooterStyle}>
-        {loading ? (
+        {isLoading ? (
           <ActivityIndicator size="small" />
         ) : (
-          <FilledButton title="MOAR" onPress={handleRefresh} />
+          <FilledButton title="MORE" onPress={handleRefresh} />
         )}
       </View>
     );
   };
-
-  useEffect(() => {
-    getImages();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <BackgroundForm
