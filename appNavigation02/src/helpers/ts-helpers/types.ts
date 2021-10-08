@@ -8,4 +8,9 @@ export type StackParamList = {
   FifthScreen: undefined;
 };
 
+export type TabParamList = {
+  TabFirst: undefined;
+  TabFourth: undefined;
+};
+
 export type Props = NativeStackScreenProps<StackParamList, 'RootScreen'>;

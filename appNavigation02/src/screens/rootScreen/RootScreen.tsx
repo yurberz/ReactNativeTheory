@@ -19,10 +19,6 @@ const RootScreen = ({navigation}: Props) => {
           })
         }
       />
-      <Button
-        title="Modal 4 screen"
-        onPress={() => navigation.navigate('FourthScreen')}
-      />
     </View>
   );
 };

@@ -11,11 +11,6 @@ const FourthScreen = ({navigation}: Props) => {
         title="Push 5 Screen"
         onPress={() => navigation.navigate('FifthScreen')}
       />
-      <Button
-        title="Close"
-        onPress={() => navigation.goBack()}
-        buttonStyle={styles.buttonStyle}
-      />
     </View>
   );
 };
